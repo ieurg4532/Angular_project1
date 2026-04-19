@@ -1,0 +1,14 @@
+.main-header {
+  background-color: var(--travel-dark);
+  color: var(--travel-white);
+  padding: 20px;
+  text-align: center;
+  border-bottom: 5px solid var(--travel-blue);
+}
+
+.year-badge {
+  background: var(--travel-blue);
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 0.8rem;
+}
