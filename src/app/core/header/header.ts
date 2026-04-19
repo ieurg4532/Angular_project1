@@ -9,7 +9,7 @@ import { AppInfo } from '../../shared/models/appInfo';
 })
 export class Header {
   public headerConfig: AppInfo = {
-    title: 'Мій щоденник подорожей',
+    title: 'Подорожі',
     year: 2026,
   };
 }
