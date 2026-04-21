@@ -1,5 +1,8 @@
 <div class="travel-grid">
   @for (item of travels; track item.id) {
-    <app-travel-card [travel]="item"></app-travel-card>
+    <app-travel-card
+      [travel]="item"
+      (addToCart)="handleCardAction($event)">
+    </app-travel-card>
   }
 </div>

@@ -3,7 +3,7 @@
   <div class="card-content">
     <span class="status-badge">{{ travel.status }}</span>
     <h3>{{ travel.title }}</h3>
-    <p class="location">📍 {{ travel.location.country }}, {{ travel.location.region }}</p>
+    <p class="location">📍 {{ travel.location?.country }}, {{ travel.location?.region }}</p>
     <p class="description">{{ travel.description }}</p>
 
     <div class="tags">
@@ -17,4 +17,18 @@
       <span class="date">{{ travel.startDate | date:'dd.MM.yyyy' }}</span>
     </div>
   </div>
+</div>
+
+@if (travel.isHot) {
+  <div class="hot-deal">ГАРЯЧА ЦІНА</div>
+}
+
+<div class="actions">
+  @if (travel.status === 'Доступно') {
+    <button class="btn-buy" (click)="onActionClick()">Забронювати</button>
+  } @else {
+    <button class="btn-disabled" disabled>Недоступно</button>
+  }
+</div>
+<div class="card" [class.premium-card]="travel.price > 19000">
 </div>

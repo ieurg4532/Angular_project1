@@ -11,4 +11,8 @@ import { TravelCardComponent } from '../../shared/components/travel-card/travel-
 })
 export class TravelListComponent {
   public travels = TRAVELS;
+
+  handleCardAction(id: number) {
+    console.log(`Користувач обрав подорож з ID: ${id}`);
+  }
 }

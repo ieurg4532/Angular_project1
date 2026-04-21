@@ -1,5 +1,3 @@
-// src/app/shared/mock-data.ts
-
 import { Travel, TravelStatus } from './models/travel';
 
 export const TRAVELS: Travel[] = [
@@ -13,6 +11,7 @@ export const TRAVELS: Travel[] = [
     status: TravelStatus.Available,
     tags: ['Гори', 'Природа', 'Релакс'],
     location: { country: 'Україна', region: 'Карпати' },
+    isHot: true,
   },
   {
     id: 2,
@@ -23,7 +22,7 @@ export const TRAVELS: Travel[] = [
     startDate: new Date('2025-02-20'),
     status: TravelStatus.ComingSoon,
     tags: ['Екзотика', 'Свято', 'Танці'],
-    location: { country: 'Бразилія', region: 'Ріо-де-Жанейро' },
+    location: null as any,
   },
   {
     id: 3,

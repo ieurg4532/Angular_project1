@@ -12,3 +12,9 @@
 .status-badge { font-size: 0.8rem; background: #eee; padding: 2px 8px; border-radius: 4px; }
 .tags { margin-top: 10px; display: flex; gap: 5px; flex-wrap: wrap; }
 .tag { font-size: 0.75rem; color: #3498db; }
+
+.premium-card {
+  border: 4px solid gold !important;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  transform: scale(1.02);
+}
