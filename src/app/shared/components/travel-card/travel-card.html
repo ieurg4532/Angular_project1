@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<div class="card">
+  <img [src]="travel.imageUrl" [alt]="travel.title" class="card-img">
+  <div class="card-content">
+    <span class="status-badge">{{ travel.status }}</span>
+    <h3>{{ travel.title }}</h3>
+    <p class="location">📍 {{ travel.location.country }}, {{ travel.location.region }}</p>
+    <p class="description">{{ travel.description }}</p>
+
+    <div class="tags">
+      @for (tag of travel.tags; track tag) {
+        <span class="tag">#{{ tag }}</span>
+      }
+    </div>
+
+    <div class="card-footer">
+      <span class="price">{{ travel.price | currency:'UAH':'symbol-narrow' }}</span>
+      <span class="date">{{ travel.startDate | date:'dd.MM.yyyy' }}</span>
+    </div>
+  </div>
+</div>

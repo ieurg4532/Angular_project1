@@ -1,0 +1,7 @@
+.travel-grid {
+  display: grid;
+  /* Це магія: автоматично додає колонки, які не менші за 280px */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+  padding: 20px;
+}

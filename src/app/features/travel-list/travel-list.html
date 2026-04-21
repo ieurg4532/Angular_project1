@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<div class="travel-grid">
+  @for (item of travels; track item.id) {
+    <app-travel-card [travel]="item"></app-travel-card>
+  }
+</div>
