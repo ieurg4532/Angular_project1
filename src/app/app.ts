@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { Header } from './core/header/header';
 import { Footer } from './core/footer/footer';
+import { TravelListComponent } from './features/travel-list/travel-list';
 
 @Component({
   selector: 'travel-root',
-  imports: [RouterOutlet, Header, Footer],
+  imports: [TravelListComponent, Header, Footer],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
