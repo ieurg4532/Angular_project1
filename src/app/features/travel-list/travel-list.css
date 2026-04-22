@@ -1,7 +1,32 @@
 .travel-grid {
   display: grid;
-  /* Це магія: автоматично додає колонки, які не менші за 280px */
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
   padding: 20px;
+  justify-content: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.filters-panel {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.filters-panel input, .filters-panel select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.debug-text {
+  margin-left: 15px;
+  color: #666;
 }

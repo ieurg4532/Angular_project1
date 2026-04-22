@@ -1,5 +1,24 @@
+<div class="filters-panel">
+  <input
+    type="text"
+    #searchInput
+    placeholder="Пошук туру..."
+    [(ngModel)]="searchQuery"
+    (ngModelChange)="filterItems()">
+
+  <select [(ngModel)]="selectedStatus" (ngModelChange)="filterItems()">
+    @for (status of statuses; track status) {
+      <option [value]="status">{{ status }}</option>
+    }
+  </select>
+
+  <button class="btn-reset" (click)="resetFilters(searchInput)">Очистити фільтри</button>
+
+  <p class="debug-text">Ви шукаєте: <strong>{{ searchQuery }}</strong></p>
+</div>
+
 <div class="travel-grid">
-  @for (item of travels; track item.id) {
+  @for (item of filteredTravels; track item.id) {
     <app-travel-card
       [travel]="item"
       (addToCart)="handleCardAction($event)">

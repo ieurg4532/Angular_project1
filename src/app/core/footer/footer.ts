@@ -10,6 +10,6 @@ import { AppInfo } from '../../shared/models/appInfo';
 export class Footer {
   public footerConfig: AppInfo = {
     title: 'Travel App Inc.',
-    year: new Date().getFullYear(), // Отримає 2026 автоматично
+    year: new Date().getFullYear(),
   };
 }
