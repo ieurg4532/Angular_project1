@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TRAVELS } from '../../shared/mock-data';
 import { TravelCardComponent } from '../../shared/components/travel-card/travel-card';
-import { TravelStatus } from '../../shared/models/travel';
+import { TravelStatus, Travel } from '../../shared/models/travel';
+import { TravelService } from '../../shared/services/travel';
 
 @Component({
   selector: 'app-travel-list',
@@ -11,34 +11,37 @@ import { TravelStatus } from '../../shared/models/travel';
   templateUrl: './travel-list.html',
   styleUrl: './travel-list.css',
 })
-export class TravelListComponent {
-  public allTravels = TRAVELS;
-  public filteredTravels = [...this.allTravels];
 
+export class TravelListComponent implements OnInit {
+
+  private travelService = inject(TravelService);
+
+  public filteredTravels: Travel[] = [];
   public searchQuery = '';
   public selectedStatus = 'Всі';
-
   public statuses = ['Всі', ...Object.values(TravelStatus)];
 
+  ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(): void {
+    this.filteredTravels = this.travelService.getAll();
+  }
+
   handleCardAction(id: number): void {
-    console.log(`Користувач обрав подорож з ID: ${id}`);
+    this.travelService.deleteItem(id);
+    this.filterItems();
   }
 
   filterItems(): void {
-    const query = this.searchQuery.toLowerCase().trim();
-
-    this.filteredTravels = this.allTravels.filter((item) => {
-      const matchesSearch = item.title.toLowerCase().includes(query);
-      const matchesStatus = this.selectedStatus === 'Всі' || item.status === this.selectedStatus;
-
-      return matchesSearch && matchesStatus;
-    });
+    this.filteredTravels = this.travelService.filterItems(this.searchQuery, this.selectedStatus);
   }
 
   resetFilters(inputElement: HTMLInputElement): void {
     this.searchQuery = '';
     this.selectedStatus = 'Всі';
-    this.filterItems();
+    this.loadData();
     inputElement.focus();
   }
 }
