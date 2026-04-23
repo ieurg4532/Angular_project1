@@ -1,34 +1,49 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { delay, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { TRAVELS } from '../mock-data';
 import { Travel } from '../models/travel';
+import { FilterOptions } from '../models/filter-options';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TravelService {
+  private allItems: Travel[] = [...TRAVELS];
 
-  private items: Travel[] = [...TRAVELS];
+  private itemsSubject$ = new BehaviorSubject<Travel[]>(this.allItems);
+  public items$ = this.itemsSubject$.asObservable();
 
-  getAll(): Travel[] {
-    return [...this.items];
+  private filterSubject$ = new BehaviorSubject<FilterOptions>({ query: '', status: 'Всі' });
+
+  constructor() {
+    this.filterSubject$
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
+        map((options) => {
+          return this.allItems.filter((item) => {
+            const matchesQuery = item.title.toLowerCase().includes(options.query.toLowerCase());
+            const matchesStatus = options.status === 'Всі' || item.status === options.status;
+            return matchesQuery && matchesStatus;
+          });
+        }),
+      )
+      .subscribe((filteredResult) => {
+        this.itemsSubject$.next(filteredResult);
+      });
   }
 
-  getById(id: number): Travel | undefined {
-    return this.items.find((item) => item.id === id);
+  getAll(): Observable<Travel[]> {
+    return this.items$.pipe(delay(1000));
   }
 
   deleteItem(id: number): void {
-    this.items = this.items.filter((item) => item.id !== id);
+    this.allItems = this.allItems.filter((item) => item.id !== id);
+    this.filterSubject$.next(this.filterSubject$.getValue());
   }
 
-  filterItems(searchQuery: string, selectedStatus: string): Travel[] {
-    const query = searchQuery.toLowerCase().trim();
-
-    return this.items.filter((item) => {
-      const matchesSearch = item.title.toLowerCase().includes(query);
-      const matchesStatus = selectedStatus === 'Всі' || item.status === selectedStatus;
-
-      return matchesSearch && matchesStatus;
-    });
+  updateFilters(options: FilterOptions): void {
+    this.filterSubject$.next(options);
   }
 }

@@ -4,24 +4,25 @@
     #searchInput
     placeholder="Пошук туру..."
     [(ngModel)]="searchQuery"
-    (ngModelChange)="filterItems()">
-
-  <select [(ngModel)]="selectedStatus" (ngModelChange)="filterItems()">
-    @for (status of statuses; track status) {
-      <option [value]="status">{{ status }}</option>
-    }
-  </select>
+    (ngModelChange)="onFilterChange()"> <select [(ngModel)]="selectedStatus" (ngModelChange)="onFilterChange()"> @for (status of statuses; track status) {
+  <option [value]="status">{{ status }}</option>
+}
+</select>
 
   <button class="btn-reset" (click)="resetFilters(searchInput)">Очистити фільтри</button>
-
-  <p class="debug-text">Ви шукаєте: <strong>{{ searchQuery }}</strong></p>
 </div>
 
-<div class="travel-grid">
-  @for (item of filteredTravels; track item.id) {
-    <app-travel-card
-      [travel]="item"
-      (addToCart)="handleCardAction($event)">
-    </app-travel-card>
-  }
-</div>
+@if (travels$ | async; as travels) {
+  <div class="travel-grid">
+    @for (item of travels; track item.id) {
+      <app-travel-card
+        [travel]="item"
+        (addToCart)="handleCardAction($event)">
+      </app-travel-card>
+    }
+  </div>
+} @else {
+  <div class="loading-state">
+    <h3>⏳ Завантаження подорожей...</h3>
+  </div>
+}
