@@ -23,12 +23,11 @@
   <div class="hot-deal">ГАРЯЧА ЦІНА</div>
 }
 
-<div class="actions">
-  @if (travel.status === 'Доступно') {
-    <button class="btn-buy" (click)="onActionClick()">Забронювати</button>
-  } @else {
-    <button class="btn-disabled" disabled>Недоступно</button>
-  }
-</div>
 <div class="card" [class.premium-card]="travel.price > 19000">
+</div>
+
+<div class="card-actions">
+  <button (click)="onActionClick()">Забронювати</button>
+
+  <button [routerLink]="['/travel', travel.id]">Детальніше</button>
 </div>

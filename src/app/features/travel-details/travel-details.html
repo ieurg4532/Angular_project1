@@ -1,0 +1,32 @@
+@if (travel$ | async; as travel) {
+  <div class="details-container">
+    <button class="btn-back" routerLink="/travels">← Назад</button>
+
+    <img [src]="travel.imageUrl" [alt]="travel.title" class="main-image">
+
+    <div class="info-block">
+      <h2>{{ travel.title }}</h2>
+      <p class="description">{{ travel.description }}</p>
+      <p class="price"><b>Ціна:</b> {{ travel.price }} грн</p>
+
+      @if (travel.location) {
+        <p class="location"> {{ travel.location.country }}, {{ travel.location.region }}</p>
+      }
+
+      <span class="badge">{{ travel.status }}</span>
+
+      <div class="tags-block">
+        <h4>Теги:</h4>
+        <div class="tags-list">
+          @for (tag of travel.tags; track tag) {
+            <span class="tag">#{{ tag }}</span>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="loading-state">
+    <h3>⏳ Завантаження...</h3>
+  </div>
+}

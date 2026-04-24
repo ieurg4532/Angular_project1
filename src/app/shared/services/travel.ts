@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { delay, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { TRAVELS } from '../mock-data';
 import { Travel } from '../models/travel';
@@ -36,6 +36,12 @@ export class TravelService {
 
   getAll(): Observable<Travel[]> {
     return this.items$.pipe(delay(1000));
+  }
+
+  getById(id: number | string): Observable<Travel | undefined> {
+    const numericId = Number(id);
+    const item = this.allItems.find((travel) => travel.id === numericId);
+    return of(item).pipe(delay(1000));
   }
 
   deleteItem(id: number): void {

@@ -18,6 +18,9 @@ export interface Travel {
   startDate: Date;
   status: TravelStatus;
   tags: string[];
-  location: Location;
+  location: {
+    country: string;
+    region: string;
+  } | null;
   isHot?: boolean;
 }
