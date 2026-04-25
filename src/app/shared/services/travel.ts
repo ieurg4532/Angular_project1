@@ -39,9 +39,9 @@ export class TravelService {
   }
 
   getById(id: number | string): Observable<Travel | undefined> {
-    const numericId = Number(id);
-    const item = this.allItems.find((travel) => travel.id === numericId);
-    return of(item).pipe(delay(1000));
+    const currentTravels = this.itemsSubject$.value;
+    const travel = currentTravels.find((t) => t.id === Number(id));
+    return new BehaviorSubject<Travel | undefined>(travel).asObservable();
   }
 
   deleteItem(id: number): void {
@@ -51,5 +51,10 @@ export class TravelService {
 
   updateFilters(options: FilterOptions): void {
     this.filterSubject$.next(options);
+  }
+
+  addItem(newItem: Travel) {
+    const currentItems = this.itemsSubject$.value;
+    this.itemsSubject$.next([...currentItems, newItem]);
   }
 }

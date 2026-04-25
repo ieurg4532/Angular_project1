@@ -5,11 +5,12 @@ import { Observable } from 'rxjs';
 import { TravelCardComponent } from '../../shared/components/travel-card/travel-card';
 import { TravelStatus, Travel } from '../../shared/models/travel';
 import { TravelService } from '../../shared/services/travel';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-travel-list',
   standalone: true,
-  imports: [TravelCardComponent, FormsModule, AsyncPipe],
+  imports: [TravelCardComponent, FormsModule, AsyncPipe, RouterLink],
   templateUrl: './travel-list.html',
   styleUrl: './travel-list.css',
 })

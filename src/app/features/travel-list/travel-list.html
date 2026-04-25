@@ -4,10 +4,15 @@
     #searchInput
     placeholder="Пошук туру..."
     [(ngModel)]="searchQuery"
-    (ngModelChange)="onFilterChange()"> <select [(ngModel)]="selectedStatus" (ngModelChange)="onFilterChange()"> @for (status of statuses; track status) {
-  <option [value]="status">{{ status }}</option>
-}
-</select>
+    (ngModelChange)="onFilterChange()">
+
+  <select [(ngModel)]="selectedStatus" (ngModelChange)="onFilterChange()">
+    @for (status of statuses; track status) {
+      <option [value]="status">{{ status }}</option>
+    }
+  </select>
+
+  <button routerLink="/travel/new" class="btn-add">+ Додати тур</button>
 
   <button class="btn-reset" (click)="resetFilters(searchInput)">Очистити фільтри</button>
 </div>

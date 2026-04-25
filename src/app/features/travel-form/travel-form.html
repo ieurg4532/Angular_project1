@@ -1,0 +1,56 @@
+<div class="form-container">
+  <h2>Додати нову подорож</h2>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="form-group">
+      <label>Назва:</label>
+      <input formControlName="title" placeholder="Введіть назву туру">
+      @if (form.get('title')?.invalid && form.get('title')?.touched) {
+        <div class="error">
+          @if (form.get('title')?.errors?.['required']) { <span>Поле обов'язкове</span> }
+          @if (form.get('title')?.errors?.['minlength']) { <span>Мінімум 3 символи</span> }
+          @if (form.get('title')?.errors?.['forbiddenName']) { <span>Ця назва заборонена</span> }
+        </div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Опис:</label>
+      <textarea formControlName="description"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Ціна (грн):</label>
+      <input type="number" formControlName="price">
+    </div>
+    <div class="form-group">
+      <label>URL Зображення:</label>
+      <input formControlName="imageUrl">
+    </div>
+    <div class="form-group">
+      <label>Статус:</label>
+      <select formControlName="status">
+        @for (st of statuses; track st) {
+          <option [value]="st">{{ st }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Країна:</label>
+      <input formControlName="country" placeholder="Наприклад: Франція">
+      @if (form.get('country')?.invalid && form.get('country')?.touched) {
+        <div class="error"><span>Це поле є обов'язковим</span></div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Регіон:</label>
+      <input formControlName="region" placeholder="Наприклад: Іль-де-Франс">
+      @if (form.get('region')?.invalid && form.get('region')?.touched) {
+        <div class="error"><span>Це поле є обов'язковим</span></div>
+      }
+    </div>
+
+    <button type="submit" [disabled]="form.invalid">Зберегти подорож</button>
+  </form>
+</div>
