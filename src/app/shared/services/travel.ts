@@ -1,60 +1,44 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { delay, debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { TRAVELS } from '../mock-data';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { Travel } from '../models/travel';
-import { FilterOptions } from '../models/filter-options';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TravelService {
-  private allItems: Travel[] = [...TRAVELS];
+  private http = inject(HttpClient);
 
-  private itemsSubject$ = new BehaviorSubject<Travel[]>(this.allItems);
-  public items$ = this.itemsSubject$.asObservable();
+  private apiUrl = 'http://localhost:3000/travels';
 
-  private filterSubject$ = new BehaviorSubject<FilterOptions>({ query: '', status: 'Всі' });
+  private travelsSubject = new BehaviorSubject<Travel[]>([]);
+  public travels$ = this.travelsSubject.asObservable();
 
   constructor() {
-    this.filterSubject$
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged((prev, curr) => JSON.stringify(prev) === JSON.stringify(curr)),
-        map((options) => {
-          return this.allItems.filter((item) => {
-            const matchesQuery = item.title.toLowerCase().includes(options.query.toLowerCase());
-            const matchesStatus = options.status === 'Всі' || item.status === options.status;
-            return matchesQuery && matchesStatus;
-          });
-        }),
-      )
-      .subscribe((filteredResult) => {
-        this.itemsSubject$.next(filteredResult);
-      });
+    this.loadInitialData();
   }
 
-  getAll(): Observable<Travel[]> {
-    return this.items$.pipe(delay(1000));
+  loadInitialData(): void {
+    this.http.get<Travel[]>(this.apiUrl).subscribe({
+      next: (data) => this.travelsSubject.next(data),
+      error: (err) => console.error('Помилка завантаження:', err),
+    });
   }
 
-  getById(id: number | string): Observable<Travel | undefined> {
-    const currentTravels = this.itemsSubject$.value;
-    const travel = currentTravels.find((t) => t.id === Number(id));
-    return new BehaviorSubject<Travel | undefined>(travel).asObservable();
+  getById(id: string | number): Observable<Travel> {
+    return this.http.get<Travel>(`${this.apiUrl}/${id}`);
   }
 
-  deleteItem(id: number): void {
-    this.allItems = this.allItems.filter((item) => item.id !== id);
-    this.filterSubject$.next(this.filterSubject$.getValue());
+  addItem(newItem: Travel): Observable<Travel> {
+    return this.http.post<Travel>(this.apiUrl, newItem).pipe(
+      tap(() => this.loadInitialData()),
+    );
   }
 
-  updateFilters(options: FilterOptions): void {
-    this.filterSubject$.next(options);
-  }
-
-  addItem(newItem: Travel) {
-    const currentItems = this.itemsSubject$.value;
-    this.itemsSubject$.next([...currentItems, newItem]);
+  deleteItem(id: number | string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`).pipe(
+      tap(() => this.loadInitialData()),
+    );
   }
 }

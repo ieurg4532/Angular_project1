@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { TravelCardComponent } from '../../shared/components/travel-card/travel-card';
 import { TravelStatus, Travel } from '../../shared/models/travel';
 import { TravelService } from '../../shared/services/travel';
@@ -24,24 +24,34 @@ export class TravelListComponent implements OnInit {
   public statuses = ['Всі', ...Object.values(TravelStatus)];
 
   ngOnInit(): void {
-    this.travels$ = this.travelService.getAll();
+    this.applyFilters();
   }
 
   handleCardAction(id: number): void {
-    this.travelService.deleteItem(id);
+    this.travelService.deleteItem(id).subscribe();
   }
 
   onFilterChange(): void {
-    this.travelService.updateFilters({
-      query: this.searchQuery,
-      status: this.selectedStatus,
-    });
+    this.applyFilters();
+  }
+
+  private applyFilters(): void {
+    this.travels$ = this.travelService.travels$.pipe(
+      map((items) =>
+        items.filter((item) => {
+          const matchesQuery = item.title.toLowerCase().includes(this.searchQuery.toLowerCase());
+          const matchesStatus =
+            this.selectedStatus === 'Всі' || item.status === this.selectedStatus;
+          return matchesQuery && matchesStatus;
+        }),
+      ),
+    );
   }
 
   resetFilters(inputElement: HTMLInputElement): void {
     this.searchQuery = '';
     this.selectedStatus = 'Всі';
-    this.onFilterChange();
+    this.applyFilters();
     inputElement.focus();
   }
 }

@@ -36,8 +36,8 @@ export class TravelFormComponent {
 
       const newTravel = {
         ...rawValue,
-        id: Date.now(),
-        startDate: new Date().toISOString(),
+        id: Date.now().toString(),
+        startDate: new Date().toISOString().split('T')[0], // формат YYYY-MM-DD
         location: {
           country: rawValue.country,
           region: rawValue.region,
@@ -46,9 +46,15 @@ export class TravelFormComponent {
         isHot: false,
       };
 
-      this.travelService.addItem(newTravel);
-
-      this.router.navigate(['/travels']);
+      this.travelService.addItem(newTravel).subscribe({
+        next: () => {
+          console.log('Подорож успішно додана!');
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          console.error('Помилка при збереженні:', err);
+        },
+      });
     } else {
       this.form.markAllAsTouched();
     }
