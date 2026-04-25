@@ -4,11 +4,12 @@ import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Travel } from '../../shared/models/travel';
 import { TravelService } from '../../shared/services/travel';
+import { StatusColorPipe } from '../../shared/pipes/status-color-pipe';
 
 @Component({
   selector: 'app-travel-details',
   standalone: true,
-  imports: [CommonModule, AsyncPipe, RouterLink],
+  imports: [CommonModule, AsyncPipe, RouterLink, StatusColorPipe],
   templateUrl: './travel-details.html',
   styleUrl: './travel-details.css',
 })

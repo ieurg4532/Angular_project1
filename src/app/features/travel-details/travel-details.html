@@ -6,14 +6,19 @@
 
     <div class="info-block">
       <h2>{{ travel.title }}</h2>
+
+      <div class="status-wrapper">
+        <span class="badge" [style.backgroundColor]="travel.status | statusColor">
+          {{ travel.status }}
+        </span>
+      </div>
+
       <p class="description">{{ travel.description }}</p>
-      <p class="price"><b>Ціна:</b> {{ travel.price }} грн</p>
+      <p class="price"><b>Ціна:</b> {{ travel.price | currency:'UAH':'symbol-narrow' }}</p>
 
       @if (travel.location) {
-        <p class="location"> {{ travel.location.country }}, {{ travel.location.region }}</p>
+        <p class="location">📍 {{ travel.location.country }}, {{ travel.location.region }}</p>
       }
-
-      <span class="badge">{{ travel.status }}</span>
 
       <div class="tags-block">
         <h4>Теги:</h4>
