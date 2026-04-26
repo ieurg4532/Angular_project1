@@ -1,0 +1,56 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 70vh;
+  background-color: #f4f7f9;
+}
+
+.auth-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+h2 { text-align: center; color: #2c3e50; margin-bottom: 1.5rem; }
+
+.form-field { margin-bottom: 1.2rem; }
+
+.form-field label { display: block; margin-bottom: 0.5rem; font-weight: 600; }
+
+input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-sizing: border-box; /* Важливо, щоб input не вилазив за межі */
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.btn-primary:disabled { background-color: #bdc3c7; }
+
+.auth-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.link-btn {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: bold;
+  margin-left: 5px;
+}

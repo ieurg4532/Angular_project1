@@ -1,0 +1,26 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Вхід у систему</h2>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label>Електронна пошта</label>
+        <input type="email" formControlName="email" placeholder="example@mail.com">
+      </div>
+
+      <div class="form-field">
+        <label>Пароль</label>
+        <input type="password" formControlName="password" placeholder="••••••••">
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="loginForm.invalid">
+        Увійти
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <span>Ще не маєте акаунту?</span>
+      <a routerLink="/register" class="link-btn"> Зареєструватися</a>
+    </div>
+  </div>
+</div>

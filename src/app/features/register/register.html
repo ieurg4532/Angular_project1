@@ -1,0 +1,29 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Створити акаунт</h2>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-field">
+        <label>Електронна пошта</label>
+        <input type="email" formControlName="email" placeholder="user@example.com">
+        @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+          <small class="error">Введіть коректний email</small>
+        }
+      </div>
+
+      <div class="form-field">
+        <label>Пароль (мін. 6 символів)</label>
+        <input type="password" formControlName="password" placeholder="••••••••">
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="registerForm.invalid">
+        Зареєструватися
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <span>Вже маєте акаунт?</span>
+      <a routerLink="/login" class="link-btn"> Увійти</a>
+    </div>
+  </div>
+</div>
